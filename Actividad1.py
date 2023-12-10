@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Cargar la imagen
-imagen = cv2.imread("./image4.tif")
+imagen = cv2.imread("./image1.png")
 
 # Aplicar ajuste de brillo y contraste
 # Alpha controla el contraste y beta controla el brillo
@@ -21,6 +21,7 @@ def ajuste_gamma(imagen, gamma=1.0):
 
 # Aplicar ajuste gamma a la imagen
 gamma = 1.5
+
 imagen_ajustada_gamma = ajuste_gamma(imagen, gamma)
 
 # Aplicar filtro Gaussiano para eliminar ruido
@@ -28,7 +29,6 @@ imagen_filtrada = cv2.GaussianBlur(imagen, (5, 5), 0)
 
 # Ecualización del histograma
 imagen_ecualizada = cv2.equalizeHist(cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY))
-histograma_ecualizado = cv2.calcHist([imagen_ecualizada], [0], None, [256], [0, 256])
 
 
 #  Operaciones aritmeticas
@@ -41,6 +41,7 @@ histogramaOriginal = cv2.calcHist([imagen], [0], None, [256], [0, 256])
 histogramaNuevo = cv2.calcHist([imagen_mejorada], [0], None, [256], [0, 256])
 histogramaNuevo2 = cv2.calcHist([imagen_ajustada_gamma], [0], None, [256], [0, 256])
 histogramaNuevo3 = cv2.calcHist([imagen_filtrada], [0], None, [256], [0, 256])
+histograma_ecualizado = cv2.calcHist([imagen_ecualizada], [0], None, [256], [0, 256])
 histogramaNuevo4 = cv2.calcHist([imagen_combinada], [0], None, [256], [0, 256])
 
 
