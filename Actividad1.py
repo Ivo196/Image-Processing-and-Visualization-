@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Cargar la imagen
-imagen = cv2.imread("./image2.jpg")
+imagen = cv2.imread("./image3.jpg")
 
 # Aplicar ajuste de brillo y contraste
 # Alpha controla el contraste y beta controla el brillo
-imagen_mejorada = cv2.convertScaleAbs(imagen, alpha=10, beta=50)
+imagen_mejorada = cv2.convertScaleAbs(imagen, alpha=1, beta=30)
 
 
 # Función para ajuste gamma
@@ -20,7 +20,7 @@ def ajuste_gamma(imagen, gamma=1.0):
 
 
 # Aplicar ajuste gamma a la imagen
-gamma = 5
+gamma = 1
 
 imagen_ajustada_gamma = ajuste_gamma(imagen, gamma)
 
@@ -34,7 +34,7 @@ imagen_ecualizada = cv2.equalizeHist(cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY))
 #  Operaciones aritmeticas
 
 # Suma de dos imágenes procesadas (por ejemplo, imagen mejorada y ecualizada)
-imagen_combinada = cv2.add(imagen_ajustada_gamma, imagen_filtrada)
+imagen_combinada = cv2.addWeighted(imagen_ajustada_gamma, 0.5, imagen_mejorada, 0.5, 0)
 
 # Calcular el histograma
 histogramaOriginal = cv2.calcHist([imagen], [0], None, [256], [0, 256])
