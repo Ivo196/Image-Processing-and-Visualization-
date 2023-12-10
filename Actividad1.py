@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Cargar la imagen
-imagen = cv2.imread("./image1.png")
+imagen = cv2.imread("./image2.jpg")
 
 # Aplicar ajuste de brillo y contraste
 # Alpha controla el contraste y beta controla el brillo
-imagen_mejorada = cv2.convertScaleAbs(imagen, alpha=2, beta=30)
+imagen_mejorada = cv2.convertScaleAbs(imagen, alpha=10, beta=50)
 
 
 # Función para ajuste gamma
@@ -20,7 +20,7 @@ def ajuste_gamma(imagen, gamma=1.0):
 
 
 # Aplicar ajuste gamma a la imagen
-gamma = 1.5
+gamma = 5
 
 imagen_ajustada_gamma = ajuste_gamma(imagen, gamma)
 
@@ -51,7 +51,7 @@ fig = plt.figure(figsize=(20, 15))
 # Imagen Original y su histograma
 
 plt.subplot(6, 6, 1)
-plt.imshow(cv2.cvtColor(imagen_combinada, cv2.COLOR_BGR2RGB))
+plt.imshow(cv2.cvtColor(imagen, cv2.COLOR_BGR2RGB))
 plt.title("Imagen Original")
 plt.axis("off")
 
