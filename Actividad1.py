@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Cargar la imagen
-imagen = cv2.imread("./image3.jpg")
+imagen = cv2.imread("./image4.tif")
 
 # Aplicar ajuste de brillo y contraste
 # Alpha controla el contraste y beta controla el brillo
@@ -35,6 +35,62 @@ imagen_ecualizada = cv2.equalizeHist(cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY))
 
 # Suma de dos imágenes procesadas (por ejemplo, imagen mejorada y ecualizada)
 imagen_combinada = cv2.addWeighted(imagen_ajustada_gamma, 0.5, imagen_mejorada, 0.5, 0)
+####################################################################################
+# Separar los canales de color
+# canal_azul = imagen[:, :, 0]
+# canal_verde = imagen[:, :, 1]
+# canal_rojo = imagen[:, :, 2]
+
+# # Disminuir la intensidad del canal azul
+# canal_azul_disminuido = canal_azul * 1
+# canal_verde_disminuido = canal_verde * 1
+# canal_rojo_disminuido = canal_rojo * 1
+
+
+# # Convertir los canales a tipo uint8 si es necesario
+# canal_azul_disminuido = canal_azul_disminuido.astype(np.uint8)
+# canal_rojo_disminuido = canal_rojo_disminuido.astype(np.uint8)
+# canal_verde_disminuido = canal_verde_disminuido.astype(np.uint8)
+
+
+# # Combinar los canales de nuevo en la imagen
+# imagen_corregida = cv2.merge(
+#     (canal_azul_disminuido, canal_verde_disminuido, canal_rojo_disminuido)
+# )
+
+
+def corregir_tinte_violeta(imagen):
+    # Convertir la imagen a un espacio de color diferente para trabajar en los canales
+    imagen_hsv = cv2.cvtColor(imagen, cv2.COLOR_BGR2HSV)
+
+    # Ajustar el componente de matiz (Hue) para reducir el tinte violeta
+    imagen_hsv[:, :, 0] = np.where(
+        imagen_hsv[:, :, 0] >= 100, imagen_hsv[:, :, 0] - 100, imagen_hsv[:, :, 0] + 100
+    )
+
+    # Volver al espacio de color BGR
+    imagen_corregida = cv2.cvtColor(imagen_hsv, cv2.COLOR_HSV2BGR)
+
+    return imagen_corregida
+
+
+# Cargar la imagen satelital con predominio de color violeta
+
+imagen_original = imagen
+
+imagen_corregida = corregir_tinte_violeta(imagen_original)
+
+if imagen_original is not None:
+    # Corregir el tinte violeta
+
+    # Mostrar la imagen original y la imagen corregida
+    cv2.imshow("Imagen Original", imagen_original)
+    cv2.imshow("Imagen Corregida", imagen_corregida)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+else:
+    print("No se pudo cargar la imagen. Verifica la ruta y el formato del archivo.")
+
 
 # Calcular el histograma
 histogramaOriginal = cv2.calcHist([imagen], [0], None, [256], [0, 256])
@@ -107,7 +163,7 @@ plt.title("Histograma I.Ecualizada")
 
 # Imagen combinada y su histograma (Operacion aritmetica)
 plt.subplot(6, 6, 6)
-plt.imshow(imagen_combinada)
+plt.imshow(imagen_corregida)
 plt.title("Imagen Combinada(Aritmética)")
 plt.axis("off")
 
